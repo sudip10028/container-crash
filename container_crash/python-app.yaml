@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: container-crash
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      bb: container-crash
+  template:
+    metadata:
+      labels:
+        bb: container-crash
+    spec:
+      containers:
+      - name: container-crash
+        image: sudipz10028/conatiner_crash_demo
+        # imagePullPolicy: Never
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: container-crash
+  namespace: default
+spec:
+  type: NodePort
+  selector:
+    bb: container-crash
+  ports:
+  - port: 5000
+    targetPort: 5000
+    nodePort: 30102
